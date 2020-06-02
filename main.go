@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	service "github.com/ymcagodme/shortn/service"
 )
 
 func loggingDecorator(f func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
@@ -18,7 +20,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if url, ok := r.URL.Query()["url"]; ok {
 		rawurl = url[0]
 	}
-	sid, err := AddPage(rawurl)
+	sid, err := service.AddPage(rawurl)
 	if err != nil {
 		log.Printf("[handler] error = %s\n", err.Error())
 		http.Error(w, http.StatusText(http.StatusInternalServerError),
