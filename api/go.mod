@@ -1,4 +1,4 @@
-module github.com/ymcagodme/shortn
+module github.com/ymcagodme/shortn/api
 
 go 1.14
 

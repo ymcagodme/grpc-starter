@@ -5,8 +5,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/ymcagodme/shortn/core"
-	pb "github.com/ymcagodme/shortn/proto"
+	"github.com/ymcagodme/shortn/api/core"
+	pb "github.com/ymcagodme/shortn/api/protos"
 	"google.golang.org/grpc"
 )
 
@@ -34,6 +34,7 @@ func main() {
 	}
 	s := grpc.NewServer()
 	pb.RegisterShortnServer(s, &server{})
+	log.Println("Started Shortn RPC server")
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
