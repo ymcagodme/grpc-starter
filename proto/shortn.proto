@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "github.com/ymcagodme/shortn";
+
+package shortn;
+
+// The Shortn service definition.
+service Shortn {
+  // Add page.
+  rpc AddPageRpc(AddPageRequest) returns (AddPageResponse) {}
+}
+
+// The request message containing the rawurl to be shortened.
+message AddPageRequest {
+  string raw_url = 1;
+  // Next ID: 2
+}
+
+// The response message containing the shorten url.
+message AddPageResponse {
+  string short_url = 1;
+  // Next ID: 2
+}
