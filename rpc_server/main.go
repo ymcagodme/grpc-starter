@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 
+	"github.com/ymcagodme/shortn/core"
 	pb "github.com/ymcagodme/shortn/proto"
 	"google.golang.org/grpc"
 )
@@ -18,8 +19,12 @@ type server struct {
 }
 
 func (s *server) AddPageRpc(ctx context.Context, in *pb.AddPageRequest) (*pb.AddPageResponse, error) {
-	log.Printf("AddPageRequest: incoming raw_url = %s", in.GetRawUrl())
-	return &pb.AddPageResponse{ShortUrl: "this is short url"}, nil
+	log.Printf("AddPageRpc: incoming raw_url = %s", in.GetRawUrl())
+	shorturl, err := core.AddPage(in.GetRawUrl())
+	if err != nil {
+		return &pb.AddPageResponse{ShortUrl: ""}, err
+	}
+	return &pb.AddPageResponse{ShortUrl: shorturl}, err
 }
 
 func main() {

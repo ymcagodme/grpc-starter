@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	service "github.com/ymcagodme/shortn/service"
+	//service "github.com/ymcagodme/shortn/service"
 	"google.golang.org/grpc"
 
 	pb "github.com/ymcagodme/shortn/proto"
@@ -29,7 +29,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if url, ok := r.URL.Query()["url"]; ok {
 		rawurl = url[0]
 	}
-	sid, err := service.AddPage(rawurl)
+	sid, err := sendAddPageRequest(rawurl)
 	if err != nil {
 		log.Printf("[handler] error = %s\n", err.Error())
 		http.Error(w, http.StatusText(http.StatusInternalServerError),
@@ -42,7 +42,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 var rpcConn *grpc.ClientConn
 var rpcClient pb.ShortnClient
 
-func handlerUseRPC(w http.ResponseWriter, httpReq *http.Request) {
+func sendAddPageRequest(rawurl string) (shorturl string, err error) {
 	if rpcConn == nil {
 		dialCtx, dialCancel := context.WithTimeout(context.Background(), time.Second)
 		defer dialCancel()
@@ -51,8 +51,7 @@ func handlerUseRPC(w http.ResponseWriter, httpReq *http.Request) {
 		if err != nil {
 			errMsg := fmt.Sprintf("failed to connect rpc service: %v", err)
 			log.Printf(errMsg)
-			http.Error(w, errMsg, http.StatusInternalServerError)
-			return
+			return "", err
 		}
 		rpcConn = conn
 	}
@@ -62,20 +61,18 @@ func handlerUseRPC(w http.ResponseWriter, httpReq *http.Request) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := rpcClient.AddPageRpc(ctx, &pb.AddPageRequest{RawUrl: "raw_url"})
+	r, err := rpcClient.AddPageRpc(ctx, &pb.AddPageRequest{RawUrl: rawurl})
 
 	if err != nil {
 		errMsg := fmt.Sprintf("failed to AddPageRequest: %v", err)
 		log.Printf(errMsg)
-		http.Error(w, errMsg, http.StatusInternalServerError)
-		return
+		return "", err
 	}
-	fmt.Fprintf(w, "res: %v", r.GetShortUrl())
+	return r.GetShortUrl(), nil
 }
 
 func main() {
 	http.HandleFunc("/shortn", loggingDecorator(handler))
-	http.HandleFunc("/shortn_rpc", loggingDecorator(handlerUseRPC))
 	log.Printf("Server starts listening :8080")
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
