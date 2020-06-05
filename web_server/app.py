@@ -30,3 +30,7 @@ def add_page():
     except Exception as e:
         return f"Unexpected error: {e}", 500
     return f"{response.short_url} -> {raw_url}"
+
+
+if __name__ == "__main__":
+    app.run()

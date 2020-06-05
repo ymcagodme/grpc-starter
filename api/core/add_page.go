@@ -23,6 +23,7 @@ func AddPage(rawurl string) (shorturl string, err error) {
 	sid := "_" + getRandomAlphabetString(10)
 
 	// TODO: Check collison and write the mapping to DB.
+	log.Printf("Mapping %s -> %s", sid, validURL)
 	return sid, nil
 }
 
