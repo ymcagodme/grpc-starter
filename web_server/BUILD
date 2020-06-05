@@ -5,9 +5,15 @@ py_binary(
     name = "app",
     srcs = ["app.py"],
     deps = [
+        requirement("protobuf"),
         requirement("flask"),
         requirement("grpcio"),
         requirement("grpcio-tools"),
-        requirement("protobuf"),
+        requirement("jinja2"),
+        requirement("markupsafe"),
+        requirement("werkzeug"),
+        requirement("itsdangerous"),
+        requirement("click"),
+        requirement("six"),
     ],
 )
