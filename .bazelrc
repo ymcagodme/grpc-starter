@@ -1,0 +1,2 @@
+# https://github.com/bazelbuild/bazel/issues/4341
+build --copt -DGRPC_BAZEL_BUILD
