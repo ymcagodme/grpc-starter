@@ -25,7 +25,7 @@ py_grpc_library(
 go_proto_library(
     name = "shortn_go_pb",
     compiler = "@io_bazel_rules_go//proto:go_grpc",
-    importpath = "github.com/ymcagodme/shortn/api",
+    importpath = "github.com/ymcagodme/shortn/protos",
     proto = ":shortn_proto",
     visibility = ["//api:__subpackages__"],
 )

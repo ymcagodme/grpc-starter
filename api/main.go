@@ -6,7 +6,7 @@ import (
 	"net"
 
 	"github.com/ymcagodme/shortn/api/core"
-	pb "github.com/ymcagodme/shortn/api/protos"
+	pb "github.com/ymcagodme/shortn/protos"
 	"google.golang.org/grpc"
 )
 
