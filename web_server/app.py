@@ -2,8 +2,10 @@ from flask import Flask, escape, request
 
 import grpc
 
-import protos.shortn_pb2
-import protos.shortn_pb2_grpc
+from protos import shortn_pb2, shortn_pb2_grpc
+
+import protos.shortn_pb2 as shortn_pb2
+import protos.shortn_pb2_grpc as short
 
 ADDR = "localhost:52002"
 app = Flask(__name__)
