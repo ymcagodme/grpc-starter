@@ -5,6 +5,9 @@ go_binary(
     srcs = ["main.go"],
     deps = [
         "//api/core:add_page",
+        "//protos:shortn_go_pb",
         "@org_golang_google_grpc//:go_default_library",
+        "@org_golang_google_grpc//reflection:go_default_library",
+        "@org_golang_x_net//context:go_default_library",
     ],
 )
